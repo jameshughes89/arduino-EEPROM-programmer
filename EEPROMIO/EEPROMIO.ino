@@ -7,6 +7,8 @@
 const int SHIFT_REGISTER_DATA = 2;
 const int SHIFT_REGISTER_CLOCK = 3;
 const int SHIFT_REGISTER_LATCH = 4;
+const int EEPROM_DATA_0 = 5;
+const int EEPROM_DATA_7 = 12;
 const int EEPROM_WRITE_ENABLE = 13;
 
 
