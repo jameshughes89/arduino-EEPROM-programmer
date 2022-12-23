@@ -56,7 +56,8 @@ byte readEepromAddress(int address) {
 // interface requires them to be open. This assumes the upToAddress is a multiple of 16. If the 
 // specified address is not a multiple of 16 it is rounded down to the nearest multiple of 16.
 //
-// int upToAddress: Address to read up to. If it is not a multiple of 16 it is rounded down.
+// int upToAddress: Address to read up to. If it is not a multiple of 16 it is rounded down
+//                  to the nearest multiple of 16. 
 void readEepromSerial(int upToAddress) {
   // Loop to the rounded down version of the specified address
   for(int base = 0; base < (upToAddress - (upToAddress % 16)); base += 16) {
