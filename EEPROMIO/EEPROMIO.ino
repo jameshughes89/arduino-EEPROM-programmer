@@ -22,14 +22,13 @@ void setAddress(int address, bool outputEnable) {
   byte lowEightBits = address;            // Byte truncates beyond the least significant 8 bits
   
   // Active low, so if false, set highest bit to 1
-  if (!outputEnabled){
+  if (!outputEnable){
     highTwoBitsAndOE = highTwoBitsAndOE | 0b10000000;
-    // Toggle ~WE?
   } 
 
   // Put the 10 bit memory address into the shift register
-  shiftOut(SHIFT_REGISTER_DATA, SHIFT_REGISTER_CLOCK, MSBFIRST, highTwoBitsAndOE)
-  shiftOut(SHIFT_REGISTER_DATA, SHIFT_REGISTER_CLOCK, MSBFIRST, lowEightBits)
+  shiftOut(SHIFT_REGISTER_DATA, SHIFT_REGISTER_CLOCK, MSBFIRST, highTwoBitsAndOE);
+  shiftOut(SHIFT_REGISTER_DATA, SHIFT_REGISTER_CLOCK, MSBFIRST, lowEightBits);
 
   // Pulse latch
   digitalWrite(SHIFT_REGISTER_LATCH, LOW);
