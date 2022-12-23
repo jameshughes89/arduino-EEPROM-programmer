@@ -53,14 +53,17 @@ byte readEepromAddress(int address) {
 
 // Read the contents of the EEPROM up to the specified address. The contents of the EEPROM are 
 // written to the serial output. This assumes that pins TX & RX are not used since the serial
-// interface requires them to be open. This assumes the upToAddress is a multiple of 16. If the 
+// interface requires them to be open. This assumes the addresses are a multiple of 16. If the 
 // specified address is not a multiple of 16 it is rounded down to the nearest multiple of 16.
 //
-// int upToAddress: Address to read up to. If it is not a multiple of 16 it is rounded down
-//                  to the nearest multiple of 16. 
-void readEepromSerial(int upToAddress) {
-  // Loop to the rounded down version of the specified address
-  for(int base = 0; base < (upToAddress - (upToAddress % 16)); base += 16) {
+// int addressFrom: Address to start reading from. If it is not a multiple of 16 it is rounded
+//                  down to the nearest multiple of 16. 
+// int addressTo:   Address to read up to. If it is not a multiple of 16 it is rounded down to the
+//                  nearest multiple of 16. 
+void readEepromSerial(int addressFrom, int addressTo) {
+  Serial.begin(57600);
+  // Loop from/to the rounded down version of the specified addresses
+  for(int base = addressFrom - (addressFrom % 16); base < addressTo - (addressTo % 16); base += 16) {
     byte words[16];
     for(int offset = 0; offset < 16; offset++) {
       words[offset] = readEepromAddress(base + offset);
@@ -73,6 +76,7 @@ void readEepromSerial(int upToAddress) {
       words[8], words[9], words[10], words[11], words[12], words[13], words[14], words[15]);
       Serial.println(outputBuffer);
   }
+  Serial.end();
 }
 
 // put your setup code here, to run once:
@@ -81,9 +85,7 @@ void setup() {
   pinMode(SHIFT_REGISTER_CLOCK, OUTPUT);
   pinMode(SHIFT_REGISTER_LATCH, OUTPUT);
 
-  Serial.begin(57600);
-  readEepromSerial(256); 
-  Serial.end();
+  readEepromSerial(256, 512); 
 }
 
 // put your main code here, to run repeatedly:
