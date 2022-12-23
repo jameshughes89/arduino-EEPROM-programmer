@@ -43,7 +43,8 @@ void setAddress(int address, bool outputEnable) {
 // int address:   Memory address to write to. 
 // int word:      Data (word) to write to the specified EEPROM memory address. 
 void writeEepromAddress(int address, byte word) {
-
+    setAddress(address, /*outputEnable*/ false);
+    for
 }
 
 // Read and return the data from the specified memory address. Each data (word) is 8 bits (1 byte). 
@@ -53,7 +54,7 @@ void writeEepromAddress(int address, byte word) {
 byte readEepromAddress(int address) {
   setAddress(address, /*outputEnable*/ true);
   byte word = 0;
-  for(int pin = EEPROM_DATA_7; pin >= EEPROM_DATA_0; pin--) {
+  for (int pin = EEPROM_DATA_7; pin >= EEPROM_DATA_0; pin--) {
     word = (word << 1) + digitalRead(pin);
   }
   return word;
@@ -72,9 +73,9 @@ byte readEepromAddress(int address) {
 void readEepromSerial(int addressFrom, int addressTo) {
   Serial.begin(57600);
   // Loop from/to the rounded down version of the specified addresses
-  for(int base = addressFrom - (addressFrom % 16); base < addressTo - (addressTo % 16); base += 16) {
+  for (int base = addressFrom - (addressFrom % 16); base < addressTo - (addressTo % 16); base += 16) {
     byte words[16];
-    for(int offset = 0; offset < 16; offset++) {
+    for (int offset = 0; offset < 16; offset++) {
       words[offset] = readEepromAddress(base + offset);
     }
     char outputBuffer[80];
