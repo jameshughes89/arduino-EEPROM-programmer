@@ -1,20 +1,13 @@
 // Utilities for reading and writing to an EEPROM. This is based on the work of Ben Eater. Some 
 // modifications are done to improve the code. This is intended to be used as a library for other
 // sketches. 
-//
-// NOTE: If this were re-designed, the outputEnable (~OE) & writeEnable (~WE) pins should both be 
-// on the SHIFT register since (a) they are mutually exclusive and (b) the setAddress function 
-// could easily set both pins when specifying if the address is being read from or written to. 
-// As of now, the function still sets both pins (one through the shift registed, another through
-// an output pin directly), but neverthless, freeing up another pin for activities would be good.
-// This is not going to be done here since it would require changes to the hardware configuration, 
-// which is not a priority. 
 
 
 // Constants for naming pin numbers
 const int SHIFT_REGISTER_DATA = 2;
 const int SHIFT_REGISTER_CLOCK = 3;
 const int SHIFT_REGISTER_LATCH = 4;
+const int EEPROM_WRITE_ENABLE = 13;
 
 
 // Specify an address to read from or write to the EEPROM. This function assumes that there are 10 
