@@ -38,6 +38,18 @@ void setAddress(int address, bool outputEnable) {
   digitalWrite(SHIFT_REGISTER_LATCH, LOW);
 }
 
+// Read and return the data from the specified memory address. Each data (word) is 8 bits (1 byte). 
+//
+// int address: Address to read from 
+byte readEEPROM(int address) {
+  setAddress(address, /*outputEnable*/ true);
+  byte word = 0;
+  for(int pin = EEPROM_DATA_7; pin >= EEPROM_DATA_0; pin--) {
+    word (data << 1) + digitalRead(pin);
+  }
+  return word;
+}
+
 // put your setup code here, to run once:
 void setup() {
   pinMode(SHIFT_REGISTER_DATA, OUTPUT);
