@@ -44,7 +44,15 @@ void setAddress(int address, bool outputEnable) {
 // int word:      Data (word) to write to the specified EEPROM memory address. 
 void writeEepromAddress(int address, byte word) {
     setAddress(address, /*outputEnable*/ false);
-    for
+    for (int pin = EEPROM_DATA_0; pin <= EEPROM_DATA_7; pin++) {
+      // Move bit to write to least significant spot and keep only the least significant bit
+      int writeBit = (word >> pin) & 1;   
+      digitalWrite(pin, writeBit);
+    }
+    digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
+    digitalWrite(EEPROM_WRITE_ENABLE, LOW);
+    delayMicroseconds(1);
+    digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
 }
 
 // Read and return the data from the specified memory address. Each data (word) is 8 bits (1 byte). 
@@ -95,7 +103,7 @@ void setup() {
   pinMode(SHIFT_REGISTER_CLOCK, OUTPUT);
   pinMode(SHIFT_REGISTER_LATCH, OUTPUT);
 
-  readEepromSerial(256, 512); 
+  readEepromSerial(0, 256); 
 }
 
 // put your main code here, to run repeatedly:
