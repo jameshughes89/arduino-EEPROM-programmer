@@ -15,8 +15,8 @@ const int EEPROM_WRITE_ENABLE = 13;
 // Specify an address to read from or write to the EEPROM. This function assumes that there are 10 
 // bits for the memory address (1024 addresses). 
 //
-// int addres: Memory address to place into shift register.
-// bool outputEnable: Specify if the address is set for output/reading (true) from EEPROM.
+// int addres:          Memory address to place into shift register.
+// bool outputEnable:   Specify if the address is set for output/reading (true) from EEPROM.
 void setAddress(int address, bool outputEnable) {
   // There are 16 bits on shift register, but only 10 are needed for specifying the memory address,
   // thus, there are 6 bits free. The most significant bit of those 6 are used for toggling ~OE.
@@ -38,9 +38,18 @@ void setAddress(int address, bool outputEnable) {
   digitalWrite(SHIFT_REGISTER_LATCH, LOW);
 }
 
+// Write a single 8 bit (1 byte) data (word) to the EEPROM at the specified address. 
+//
+// int address:   Memory address to write to. 
+// int word:      Data (word) to write to the specified EEPROM memory address. 
+void writeEepromAddress(int address, byte word) {
+
+}
+
 // Read and return the data from the specified memory address. Each data (word) is 8 bits (1 byte). 
 //
-// int address: Address to read from 
+// int address:   Address to read from.
+// return:        Data (word) read from the specified EEPROM memory address.
 byte readEepromAddress(int address) {
   setAddress(address, /*outputEnable*/ true);
   byte word = 0;
@@ -56,10 +65,10 @@ byte readEepromAddress(int address) {
 // interface requires them to be open. This assumes the addresses are a multiple of 16. If the 
 // specified address is not a multiple of 16 it is rounded down to the nearest multiple of 16.
 //
-// int addressFrom: Address to start reading from. If it is not a multiple of 16 it is rounded
-//                  down to the nearest multiple of 16. 
-// int addressTo:   Address to read up to. If it is not a multiple of 16 it is rounded down to the
-//                  nearest multiple of 16. 
+// int addressFrom:   Address to start reading from. If it is not a multiple of 16 it is rounded
+//                    down to the nearest multiple of 16. 
+// int addressTo:     Address to read up to. If it is not a multiple of 16 it is rounded down to
+//                    the nearest multiple of 16. 
 void readEepromSerial(int addressFrom, int addressTo) {
   Serial.begin(57600);
   // Loop from/to the rounded down version of the specified addresses
