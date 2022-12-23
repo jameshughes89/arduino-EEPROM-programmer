@@ -43,16 +43,24 @@ void setAddress(int address, bool outputEnable) {
 // int address:   Memory address to write to. 
 // int word:      Data (word) to write to the specified EEPROM memory address. 
 void writeEepromAddress(int address, byte word) {
-    setAddress(address, /*outputEnable*/ false);
-    for (int pin = EEPROM_DATA_0; pin <= EEPROM_DATA_7; pin++) {
-      // Move bit to write to least significant spot and keep only the least significant bit
-      int writeBit = (word >> pin) & 1;   
-      digitalWrite(pin, writeBit);
-    }
-    digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
-    digitalWrite(EEPROM_WRITE_ENABLE, LOW);
-    delayMicroseconds(1);
-    digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
+// Set pins to write to EEPROM  
+  for (int pin = EEPROM_DATA_0; pin <= EEPROM_DATA_7; pin++) {
+    pinMode(pin, OUTPUT);
+  }
+
+  // Set address and write data EEPROM
+  setAddress(address, /*outputEnable*/ false);
+  for (int pin = EEPROM_DATA_0; pin <= EEPROM_DATA_7; pin++) {
+    digitalWrite(pin, word & 1);    // Mastk the single bit we want (least significant)
+    word = word >> 1;               // Shift the next bit to be output to be the least significant bit
+  }
+
+  // Pulse write enable to latch data into EEPROM
+  digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
+  digitalWrite(EEPROM_WRITE_ENABLE, LOW);
+  delayMicroseconds(10);
+  digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
+  delay(5);
 }
 
 // Read and return the data from the specified memory address. Each data (word) is 8 bits (1 byte). 
@@ -60,6 +68,12 @@ void writeEepromAddress(int address, byte word) {
 // int address:   Address to read from.
 // return:        Data (word) read from the specified EEPROM memory address.
 byte readEepromAddress(int address) {
+  // Set pins to read from EEPROM  
+  for (int pin = EEPROM_DATA_0; pin <= EEPROM_DATA_7; pin++) {
+    pinMode(pin, INPUT);
+  }
+  
+  // Set address and read data from EEPROM
   setAddress(address, /*outputEnable*/ true);
   byte word = 0;
   for (int pin = EEPROM_DATA_7; pin >= EEPROM_DATA_0; pin--) {
@@ -102,8 +116,8 @@ void setup() {
   pinMode(SHIFT_REGISTER_DATA, OUTPUT);
   pinMode(SHIFT_REGISTER_CLOCK, OUTPUT);
   pinMode(SHIFT_REGISTER_LATCH, OUTPUT);
-
-  readEepromSerial(0, 256); 
+  digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
+  pinMode(EEPROM_WRITE_ENABLE, OUTPUT);
 }
 
 // put your main code here, to run repeatedly:
