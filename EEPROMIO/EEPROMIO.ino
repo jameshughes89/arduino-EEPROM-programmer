@@ -1,6 +1,8 @@
 // Utilities for reading and writing to an EEPROM. This is based on the work of Ben Eater. Some 
-// modifications are done to improve the code. This is intended to be used as a library for other
-// sketches. 
+// modifications are done to improve the code. This ~~is~~ was intended to be used as a library 
+// for other sketches, but arduino is weird, and it takes more effort than I am willing to put in
+// to figure out how to do it that way. Thus, this sketch will just contain everything and the 
+// contents of the setup and loop will change depending on what is needed at the time.
 
 
 // Constants for naming pin numbers
