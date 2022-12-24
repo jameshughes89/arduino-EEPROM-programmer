@@ -14,6 +14,38 @@ const int EEPROM_DATA_7 = 12;
 const int EEPROM_WRITE_ENABLE = 13;
 
 
+// Constants for the 7-segment display. The display is laid out as follows:
+//
+//              a
+//              -
+//            f|g|b
+//              - 
+//            e| |c
+//              -  
+//              d
+//
+// There is a decimal point, but that will be used. 
+// Based on the physical layout of the EEPROM programmer, the binary representation is 0b0abcdefg. 
+const int ZERO      = 0b01111110;
+const int ONE       = 0b00110000;
+const int TWO       = 0b01101101;
+const int THREE     = 0b01111001;
+const int FOUR      = 0b00110011;
+const int FIVE      = 0b01011011;
+const int SIX       = 0b01011111;
+const int SEVEN     = 0b01110000;
+const int EIGHT     = 0b01111111;
+const int NINE      = 0b01111011;
+const int TEN       = 0b01110111; // A
+const int ELEVEN    = 0b00011111; // b
+const int TWELVE    = 0b01001110; // C
+const int THIRTEEN  = 0b00111101; // d
+const int FOURTEEN  = 0b01001111; // E
+const int FIFTEEN   = 0b01000111; // F
+
+
+
+
 // Specify an address to read from or write to the EEPROM. This function assumes that there are 10 
 // bits for the memory address (1024 addresses). 
 //
