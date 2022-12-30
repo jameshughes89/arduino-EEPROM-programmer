@@ -24,8 +24,10 @@ const int EEPROM_WRITE_ENABLE = 13;
 //              -  
 //              d
 //
-// There is a decimal point, but that will be used. 
-// Based on the physical layout of the EEPROM programmer, the binary representation is 0b0abcdefg. 
+// labelling goes clockwise, starting at twelve o'clock, with the centre being the last value. 
+// There is a decimal point, but that will not be used. Based on the physical layout of the EEPROM
+// programmer, the binary representation is 0abcdefg. The most significant bit of the byte is 
+// always 0 since the decimal is not used. 
 const int ZERO      = 0b01111110;
 const int ONE       = 0b00110000;
 const int TWO       = 0b01101101;
