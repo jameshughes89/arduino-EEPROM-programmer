@@ -119,8 +119,8 @@ byte readEepromAddress(int address) {
 }
 
 
-// Read the contents of the EEPROM up to the specified address. The contents of the EEPROM are 
-// written to the serial output. This assumes that pins TX & RX are not used since the serial
+// Read the contents of the EEPROM within the specified address range. The contents of the EEPROM 
+// are written to the serial output. This assumes that pins TX & RX are not used since the serial
 // interface requires them to be open. This assumes the addresses are a multiple of 16. If the 
 // specified address is not a multiple of 16 it is rounded down to the nearest multiple of 16.
 //
@@ -128,7 +128,7 @@ byte readEepromAddress(int address) {
 //                    down to the nearest multiple of 16. 
 // int addressTo:     Address to read up to. If it is not a multiple of 16 it is rounded down to
 //                    the nearest multiple of 16. 
-void readEepromSerial(int addressFrom, int addressTo) {
+void readEepromRangeSerial(int addressFrom, int addressTo) {
   Serial.begin(57600);
   // Loop from/to the rounded down version of the specified addresses
   for (int base = addressFrom - (addressFrom % 16); base < addressTo - (addressTo % 16); base += 16) {
