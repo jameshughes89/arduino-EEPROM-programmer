@@ -44,7 +44,8 @@ const int TWELVE    = 0b01001110; // C
 const int THIRTEEN  = 0b00111101; // d
 const int FOURTEEN  = 0b01001111; // E
 const int FIFTEEN   = 0b01000111; // F
-
+const int NEGATIVE  = 0b00000001; // -
+const int DIGITS[16] = {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE, THIRTEEN, FOURTEEN, FIFTEEN};
 
 
 
@@ -145,6 +146,11 @@ void readEepromRangeSerial(int addressFrom, int addressTo) {
       Serial.println(outputBuffer);
   }
   Serial.end();
+}
+
+
+void writeEepromSevenSegmentDigits() {
+
 }
 
 // put your setup code here, to run once:
