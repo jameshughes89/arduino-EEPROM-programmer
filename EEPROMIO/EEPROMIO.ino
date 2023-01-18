@@ -148,9 +148,52 @@ void readEepromRangeSerial(int addressFrom, int addressTo) {
   Serial.end();
 }
 
-
-void writeEepromSevenSegmentDigits() {
-
+// Write the seven segment display patterns to the EEPROM. The EEPROM is serving as a map. The 
+// key is a combination of the binary value to be displayed and the digit of the value to be 
+// displayed. The value is the seven segment pattern for the specific digit. 
+//
+// The key is the memory address of the value. The EEPROM this is designed for has eleven address 
+// lines. The 11th (A in the below example) is not used here. The 2 most sidnificant used bits 
+// represent which digit of the number to display and the 8 least significant bits is the binary 
+// representation of the number to be displayed. 
+//
+//              A|9 8|7 6 5 4 3 2 1 0
+//              X|dig|    number
+//
+// The seven segment display is configured such that only one digit is diaplayed at a time, but at
+// a high enough frequency, it appears as if all digits are displayed. This means if address lines
+// 0 -- 7 correspond to a given number, for example, 123 (0b1111011), the address lines 8 & 9 are 
+// set to correspond to specific digits (1, 2, 3, or 4) at a high frequency. 
+//
+// Example: 123
+//              X|00|01100100 -> THREE      0b01111001
+//              X|01|01100100 -> TWO        0b00110000
+//              X|10|01100100 -> ONE        0b00110000
+//              X|11|01100100 -> nothing    0b00000000
+//
+// int maxNumber: The max number (not inclusive) to write to the EEPROM. For an 8 bit number, this
+//                is typically set to 256 (0 -- 255). 
+void writeEepromSevenSegmentDigits(int maxNumber) {
+  int digitIndex;
+  // Write ones digit 
+  for (int value = 0; value < maxNumber; value++){
+    digitIndex = (value / 1) % 10;
+    writeEepromAddress(maxNumber * 0 + value, DIGITS[digitIndex]);
+  }
+  // Write tens digit 
+  for (int value = 0; value < maxNumber; value++){
+    digitIndex = (value / 10) % 10;
+    writeEepromAddress(maxNumber * 1 + value, DIGITS[digitIndex]);
+  }
+  // Write hundreds digit 
+  for (int value = 0; value < maxNumber; value++){
+    digitIndex = (value / 100) % 10;
+    writeEepromAddress(maxNumber * 2 + value, DIGITS[digitIndex]);
+  }
+  // Write sign (nothing since positive)
+  for (int value = 0; value < maxNumber; value++){
+    writeEepromAddress(maxNumber * 3 + value, 0b00000000);
+  }
 }
 
 // put your setup code here, to run once:
