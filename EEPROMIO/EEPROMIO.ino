@@ -174,10 +174,18 @@ void readEepromRangeSerial(int addressFrom, int addressTo) {
 //                  0|11|01111011 -> nothing    0b00000000
 //
 //
-// This function also writes the two's complement version of the numbers (0 - 0.5*maxNumber) -- 
+// This function also writes the two's complement version of the numbers (- 0.5*maxNumber) -- 
 // 0.5*maxNumber (exclusively). The most significant bit in the address line (A in the above 
 // example) is high for the two's complement numbers. Thus, the most signficant bit acts as a 
 // toggle for the mode --- off for unsigned integers, on for signed two's complement numbers. 
+// Note that the values for 2s complement are not quite in sequential order; 0 -- 0.5*maxNumber 
+// (exclusive) will be first followd by - 0.5*maxNumber -- -1. In other words, it loops to the 
+// negative values after all the positive numbers in the two's complement representation. The
+// below example with the binary representation of a negative two's complement number demonstrates
+// this, but for another example, for the 8 least significant bits on the address line, consider 
+// that 0b01111111 is the last positive integer in 8 bits. This means addresses 0b00000000 -- 
+// 0b01111111 are the positives, but once 0b10000000 is hit, which is the subsequent number after 
+// 0b011111111, it jumps to -128, which is followed by -127 (0b10000001), and so on. 
 //
 // Example: -123 (0b10000101)
 //
