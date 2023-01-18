@@ -148,6 +148,7 @@ void readEepromRangeSerial(int addressFrom, int addressTo) {
   Serial.end();
 }
 
+
 // Write the seven segment display patterns to the EEPROM. The EEPROM is serving as a map. The 
 // key is a combination of the binary value to be displayed and the digit of the value to be 
 // displayed. The value is the seven segment pattern for the specific digit. 
