@@ -217,7 +217,7 @@ void writeEepromSevenSegmentDigits(int maxNumber) {
   }
   // Write sign (nothing since positive)
   for (int value = 0; value < maxNumber; value++){
-    sign = 0b00000000
+    sign = 0b00000000;
     writeEepromAddress(maxNumber * 3 + value, sign);
   }
 
@@ -239,9 +239,9 @@ void writeEepromSevenSegmentDigits(int maxNumber) {
   // Write sign two's complement
   for (int value = 0 - 0.5 * maxNumber; value < 0.5 * maxNumber; value++){
     if (value < 0) {
-      sign = 0b00000001
+      sign = 0b00000001;
     } else{
-      sign = 0b00000000
+      sign = 0b00000000;
     }
     writeEepromAddress(maxNumber * 7 + value, sign);
   }
@@ -254,6 +254,11 @@ void setup() {
   pinMode(SHIFT_REGISTER_LATCH, OUTPUT);
   digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
   pinMode(EEPROM_WRITE_ENABLE, OUTPUT);
+  Serial.begin(57600);
+  writeEepromSevenSegmentDigits(256);
+  Serial.println("Done");
+  Serial.end();
+  readEepromRangeSerial(0, 2048);
 }
 
 // put your main code here, to run repeatedly:
