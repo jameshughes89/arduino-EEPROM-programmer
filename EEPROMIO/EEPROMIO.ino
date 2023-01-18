@@ -199,6 +199,7 @@ void readEepromRangeSerial(int addressFrom, int addressTo) {
 //                is typically set to 256 (0 -- 255). 
 void writeEepromSevenSegmentDigits(int maxNumber) {
   int digitIndex;
+  int sign;
   // Write ones digit 
   for (int value = 0; value < maxNumber; value++){
     digitIndex = (value / 1) % 10;
@@ -216,7 +217,33 @@ void writeEepromSevenSegmentDigits(int maxNumber) {
   }
   // Write sign (nothing since positive)
   for (int value = 0; value < maxNumber; value++){
-    writeEepromAddress(maxNumber * 3 + value, 0b00000000);
+    sign = 0b00000000
+    writeEepromAddress(maxNumber * 3 + value, sign);
+  }
+
+    // Write ones digit two's complement
+  for (int value = 0 - 0.5 * maxNumber; value < 0.5 * maxNumber; value++){
+    digitIndex = (abs(value) / 1) % 10;
+    writeEepromAddress(maxNumber * 4 + (byte)value, DIGITS[digitIndex]);
+  }
+  // Write tens digit two's complement
+  for (int value = 0 - 0.5 * maxNumber; value < 0.5 * maxNumber; value++){
+    digitIndex = (abs(value) / 10) % 10;
+    writeEepromAddress(maxNumber * 5 + value, DIGITS[digitIndex]);
+  }
+  // Write hundreds digit two's complement
+  for (int value = 0 - 0.5 * maxNumber; value < 0.5 * maxNumber; value++){
+    digitIndex = (abs(value) / 100) % 10;
+    writeEepromAddress(maxNumber * 6 + value, DIGITS[digitIndex]);
+  }
+  // Write sign two's complement
+  for (int value = 0 - 0.5 * maxNumber; value < 0.5 * maxNumber; value++){
+    if (value < 0) {
+      sign = 0b00000001
+    } else{
+      sign = 0b00000000
+    }
+    writeEepromAddress(maxNumber * 7 + value, sign);
   }
 }
 
