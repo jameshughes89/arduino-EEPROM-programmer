@@ -154,12 +154,12 @@ void readEepromRangeSerial(int addressFrom, int addressTo) {
 // displayed. The value is the seven segment pattern for the specific digit. 
 //
 // The key is the memory address of the value. The EEPROM this is designed for has eleven address 
-// lines. The 11th (A in the below example) is not used here. The 2 most sidnificant used bits 
+// lines. The 11th (A in the below example) is not used here. The 2 most significant used bits 
 // represent which digit of the number to display and the 8 least significant bits is the binary 
 // representation of the number to be displayed. 
 //
-//              A|9 8|7 6 5 4 3 2 1 0
-//              X|dig|    number
+//                  A|9 8|7 6 5 4 3 2 1 0
+//                  X|dig|    number
 //
 // The seven segment display is configured such that only one digit is diaplayed at a time, but at
 // a high enough frequency, it appears as if all digits are displayed. This means if address lines
@@ -167,10 +167,10 @@ void readEepromRangeSerial(int addressFrom, int addressTo) {
 // set to correspond to specific digits (1, 2, 3, or 4) at a high frequency. 
 //
 // Example: 123
-//              X|00|01100100 -> THREE      0b01111001
-//              X|01|01100100 -> TWO        0b00110000
-//              X|10|01100100 -> ONE        0b00110000
-//              X|11|01100100 -> nothing    0b00000000
+//                  X|00|01100100 -> THREE      0b01111001
+//                  X|01|01100100 -> TWO        0b00110000
+//                  X|10|01100100 -> ONE        0b00110000
+//                  X|11|01100100 -> nothing    0b00000000
 //
 // int maxNumber: The max number (not inclusive) to write to the EEPROM. For an 8 bit number, this
 //                is typically set to 256 (0 -- 255). 
