@@ -229,12 +229,12 @@ void writeEepromSevenSegmentDigits(int maxNumber) {
   // Write tens digit two's complement
   for (int value = 0 - 0.5 * maxNumber; value < 0.5 * maxNumber; value++){
     digitIndex = (abs(value) / 10) % 10;
-    writeEepromAddress(maxNumber * 5 + value, DIGITS[digitIndex]);
+    writeEepromAddress(maxNumber * 5 + (byte)value, DIGITS[digitIndex]);
   }
   // Write hundreds digit two's complement
   for (int value = 0 - 0.5 * maxNumber; value < 0.5 * maxNumber; value++){
     digitIndex = (abs(value) / 100) % 10;
-    writeEepromAddress(maxNumber * 6 + value, DIGITS[digitIndex]);
+    writeEepromAddress(maxNumber * 6 + (byte)value, DIGITS[digitIndex]);
   }
   // Write sign two's complement
   for (int value = 0 - 0.5 * maxNumber; value < 0.5 * maxNumber; value++){
@@ -243,7 +243,7 @@ void writeEepromSevenSegmentDigits(int maxNumber) {
     } else{
       sign = 0b00000000;
     }
-    writeEepromAddress(maxNumber * 7 + value, sign);
+    writeEepromAddress(maxNumber * 7 + (byte)value, sign);
   }
 }
 
