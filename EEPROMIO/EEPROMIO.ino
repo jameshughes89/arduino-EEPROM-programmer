@@ -163,14 +163,29 @@ void readEepromRangeSerial(int addressFrom, int addressTo) {
 //
 // The seven segment display is configured such that only one digit is diaplayed at a time, but at
 // a high enough frequency, it appears as if all digits are displayed. This means if address lines
-// 0 -- 7 correspond to a given number, for example, 123 (0b1111011), the address lines 8 & 9 are 
+// 0 -- 7 correspond to a given number, for example, 123 (0b01111011), the address lines 8 & 9 are 
 // set to correspond to specific digits (1, 2, 3, or 4) at a high frequency. 
 //
-// Example: 123
-//                  X|00|01100100 -> THREE      0b01111001
-//                  X|01|01100100 -> TWO        0b00110000
-//                  X|10|01100100 -> ONE        0b00110000
-//                  X|11|01100100 -> nothing    0b00000000
+// Example: 123 (0b01111011)
+//
+//                  0|00|01111011 -> THREE      0b01111001
+//                  0|01|01111011 -> TWO        0b00110000
+//                  0|10|01111011 -> ONE        0b00110000
+//                  0|11|01111011 -> nothing    0b00000000
+//
+//
+// This function also writes the two's complement version of the numbers (0 - 0.5*maxNumber) -- 
+// 0.5*maxNumber (exclusively). The most significant bit in the address line (A in the above 
+// example) is high for the two's complement numbers. Thus, the most signficant bit acts as a 
+// toggle for the mode --- off for unsigned integers, on for signed two's complement numbers. 
+//
+// Example: -123 (0b10000101)
+//
+//                  1|00|10000101 -> THREE      0b01111001
+//                  1|01|10000101 -> TWO        0b00110000
+//                  1|10|10000101 -> ONE        0b00110000
+//                  1|11|10000101 -> NEGATIVE   0b00000001
+//
 //
 // int maxNumber: The max number (not inclusive) to write to the EEPROM. For an 8 bit number, this
 //                is typically set to 256 (0 -- 255). 
