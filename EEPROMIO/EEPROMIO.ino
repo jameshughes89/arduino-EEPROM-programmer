@@ -165,13 +165,14 @@ void writeEepromAddress(int address, byte word) {
   delay(5);
 }
 
-// Clear the EEPROM data. In other words, write all 0s to every address in the EEPROM. 
+// "Clear" the EEPROM data; write a specified value to every address in the EEPROM. 
 //
-// int from:  Memory address to start clearing from (inclusive).
-// int to:    Memory address to end clearing at (excluding). 
-void clearEeprom(int from, int to){
+// int value:   Value to write to each address. 
+// int from:    Memory address to start clearing from (inclusive).
+// int to:      Memory address to end clearing at (excluding). 
+void clearEeprom(int value, int from, int to){
   for (int address = from; address < to; address++){
-    writeEepromAddress(address, 0);
+    writeEepromAddress(address, value);
   }
 }
 
