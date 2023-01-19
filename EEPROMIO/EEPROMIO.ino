@@ -97,8 +97,8 @@ const uint16_t XXX = 0b0000000000000001;  // Some jump register, I can't rememeb
 // EEPROMs that both have 2048 Bytes). 
 const uint16_t INSTRUCTIONS[16][8] = {
   {PCO|MRI,   RMO|IRI|PCE, 0,       0,        0,        0, 0, 0},    // 0000 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRI|PCE, IRO|RMI, RMO|ARI,  0,        0, 0, 0},    // 0001 --- LDA --- Load A Register
-  {PCO|MRI,   RMO|IRI|PCE, IRO|RMI, RMO|BRI,  AUO|ARI,  0, 0, 0},    // 0010 --- ADD --- Add 
+  {PCO|MRI,   RMO|IRI|PCE, IRO|MRI, RMO|ARI,  0,        0, 0, 0},    // 0001 --- LDA --- Load A Register
+  {PCO|MRI,   RMO|IRI|PCE, IRO|MRI, RMO|BRI,  AUO|ARI,  0, 0, 0},    // 0010 --- ADD --- Add 
   {PCO|MRI,   RMO|IRI|PCE, 0,       0,        0,        0, 0, 0},    // 0011 --- NOP --- No Operation 
   {PCO|MRI,   RMO|IRI|PCE, 0,       0,        0,        0, 0, 0},    // 0100 --- NOP --- No Operation 
   {PCO|MRI,   RMO|IRI|PCE, 0,       0,        0,        0, 0, 0},    // 0101 --- NOP --- No Operation 
@@ -391,7 +391,8 @@ void setup() {
   digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
   pinMode(EEPROM_WRITE_ENABLE, OUTPUT);
   Serial.begin(57600);
-  clearEeprom(0, 2048);
+  clearEeprom(0, 0, 2048);
+  writeAllEepromMicrocodes();
   Serial.println("Done");
   Serial.end();
   readEepromRangeSerial(0, 256);
