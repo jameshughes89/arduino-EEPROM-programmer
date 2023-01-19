@@ -312,6 +312,19 @@ void writeEepromSevenSegmentDigits(int maxNumber) {
   }
 }
 
+
+// Write the microcodes for the instructions to the EEPROM. Each microcode instruction is 16 bits, 
+// thus the instructions are split across two EEPROMS. If writing 16 bits out to the 8 data lines,
+// only the 8 least significant bits will actually be written. Therefore, writing the 16 bits works
+// for programming the "right" EEPROM but not the "left". For programming the "left", the 16 bits 
+// will be right shifted 8 bits before it is written to the 8 data lines of the EEPROM.  
+//
+// int shift: The number of bits to shift the 16 bit instruction to the right. For programming the 
+//            "left" EEPROM, this should be 8, for programming the "RIGHT" this should be 0. 
+void writeEepromMicrocodes(int shift){
+
+}
+
 // put your setup code here, to run once:
 void setup() {
   pinMode(SHIFT_REGISTER_DATA, OUTPUT);
