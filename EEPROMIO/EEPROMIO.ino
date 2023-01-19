@@ -323,25 +323,42 @@ void writeEepromSevenSegmentDigits(int maxNumber) {
 }
 
 
-// Write the microcodes for the instructions to the EEPROM. Each microcode instruction is 16 bits, 
-// thus the instructions are split across two EEPROMS. If writing 16 bits out to the 8 data lines,
-// only the 8 least significant bits will actually be written. Therefore, writing the 16 bits works
-// for programming the "right" EEPROM but not the "left". For programming the "left", the 16 bits 
-// will be right shifted 8 bits before it is written to the 8 data lines of the EEPROM.  
+// Write the microcodes for half the instructions to an EEPROM. Each microcode instruction is 16 
+// bits, thus the instructions are split across two EEPROMS. If writing 16 bits out to the 8 data 
+// lines, only the 8 least significant bits will actually be written. Therefore, writing the 16 
+// bits works for programming the "right" EEPROM but not the "left". For programming the "left", 
+// the 16 bits will be right shifted 8 bits before it is written to the 8 data lines of the EEPROM.  
 //
 // int shift: The number of bits to shift the 16 bit instruction to the right. For programming the 
 //            "left" EEPROM, this should be 8, for programming the "right" this should be 0. 
-void writeEepromMicrocodes(int shift){
+void writeHalfEepromMicrocodes(int shift) {
   int address = 0;
-  // For each instruction   
-  for (int instruction = 0; instruction < sizeof(INSTRUCTIONS)/sizeof(INSTRUCTIONS[0]); instruction++){
+  // For each instruction
+  int instructionCount = sizeof(INSTRUCTIONS)/sizeof(INSTRUCTIONS[0]);   
+  for (int instruction = 0; instruction < instructionCount; instruction++){
     // For each microcode 
-    for (int microcode = 0; microcode < sizeof(INSTRUCTIONS[instruction])/sizeof(INSTRUCTIONS[instruction][0]); microcode++){
+    int microcodeCount = sizeof(INSTRUCTIONS[instruction])/sizeof(INSTRUCTIONS[instruction][0]);
+    for (int microcode = 0; microcode < microcodeCount; microcode++){
       writeEepromAddress(address, INSTRUCTIONS[instruction][microcode] >> shift);
       address++;
     }
   }
 }
+
+
+// Write the microcodes for the instructions to an EEPROM such that the first half (8 bits) are in
+// addresses 0 -- X-1 and the second half of the instructions are in X -- 2*X-1, where X is the 
+// total number of instructions * number of microcodes for each instruction. Each microcode 
+// instruction is 16 bits, thus the instructions must be split across two EEPROMS. This could be 
+// done by writing 8 bits to one EEPROM and the remaining 8 to another, making each EEPROM 
+// different. Or, this could be done by programming the EEPROMs identically but having two blocks 
+// (0 -- X-1 and X+1 -- 2*X-1) with 8 bits in the first block and the remaining 8 in the other 
+// block. This then could have one EEPROM always start at address 0 and the other always start at 
+// address X, which is simply achieved by tying one address pin high to start at index X. 
+void writeAllEepromMicrocodes() {
+  
+}
+
 
 // put your setup code here, to run once:
 void setup() {
