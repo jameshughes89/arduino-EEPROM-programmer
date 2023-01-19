@@ -170,7 +170,7 @@ void writeEepromAddress(int address, byte word) {
 // int from:  Memory address to start clearing from (inclusive).
 // int to:    Memory address to end clearing at (excluding). 
 void clearEeprom(int from, int to){
-  for (int address = 0from; address < to; address++){
+  for (int address = from; address < to; address++){
     writeEepromAddress(address, 0);
   }
 }
@@ -333,11 +333,12 @@ void writeEepromSevenSegmentDigits(int maxNumber) {
 //            "left" EEPROM, this should be 8, for programming the "right" this should be 0. 
 void writeHalfEepromMicrocodes(int shift) {
   int address = 0;
+  int instructionCount = sizeof(INSTRUCTIONS)/sizeof(INSTRUCTIONS[0]);;
+  int microcodeCount = sizeof(INSTRUCTIONS[0])/sizeof(INSTRUCTIONS[0][0]); 
+
   // For each instruction
-  int instructionCount = sizeof(INSTRUCTIONS)/sizeof(INSTRUCTIONS[0]);   
   for (int instruction = 0; instruction < instructionCount; instruction++){
     // For each microcode 
-    int microcodeCount = sizeof(INSTRUCTIONS[instruction])/sizeof(INSTRUCTIONS[instruction][0]);
     for (int microcode = 0; microcode < microcodeCount; microcode++){
       writeEepromAddress(address, INSTRUCTIONS[instruction][microcode] >> shift);
       address++;
@@ -356,7 +357,28 @@ void writeHalfEepromMicrocodes(int shift) {
 // block. This then could have one EEPROM always start at address 0 and the other always start at 
 // address X, which is simply achieved by tying one address pin high to start at index X. 
 void writeAllEepromMicrocodes() {
-  
+  int address = 0;
+  int instructionCount = sizeof(INSTRUCTIONS)/sizeof(INSTRUCTIONS[0]);;
+  int microcodeCount = sizeof(INSTRUCTIONS[0])/sizeof(INSTRUCTIONS[0][0]); 
+
+  // 8 most significant bits
+  // For each instruction
+  for (int instruction = 0; instruction < instructionCount; instruction++){
+    // For each microcode 
+    for (int microcode = 0; microcode < microcodeCount; microcode++){
+      writeEepromAddress(address, INSTRUCTIONS[instruction][microcode] >> 8);
+      address++;
+    }
+  }
+  // 8 least significant bits
+  // For each instruction
+  for (int instruction = 0; instruction < instructionCount; instruction++){
+    // For each microcode 
+    for (int microcode = 0; microcode < microcodeCount; microcode++){
+      writeEepromAddress(address, INSTRUCTIONS[instruction][microcode] >> 0);
+      address++;
+    }
+  }
 }
 
 
