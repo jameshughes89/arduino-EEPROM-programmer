@@ -165,6 +165,16 @@ void writeEepromAddress(int address, byte word) {
   delay(5);
 }
 
+// Clear the EEPROM data. In other words, write all 0s to every address in the EEPROM. 
+//
+// int from:  Memory address to start clearing from (inclusive).
+// int to:    Memory address to end clearing at (excluding). 
+void clearEeprom(int from, int to){
+  for (int address = 0from; address < to; address++){
+    writeEepromAddress(address, 0);
+  }
+}
+
 // Read and return the data from the specified memory address. Each data (word) is 8 bits (1 byte). 
 //
 // int address:   Address to read from.
@@ -341,7 +351,7 @@ void setup() {
   digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
   pinMode(EEPROM_WRITE_ENABLE, OUTPUT);
   Serial.begin(57600);
-  //writeEepromMicrocodes(0);
+  clearEeprom(0, 2048);
   Serial.println("Done");
   Serial.end();
   readEepromRangeSerial(0, 256);
