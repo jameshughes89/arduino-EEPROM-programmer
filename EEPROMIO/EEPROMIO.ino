@@ -59,7 +59,7 @@ const int DIGITS[16] = {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NI
 //
 // The configuration of the EEPROMs and the individual modules they correspond to are as follows:
 //
-//            HLT MRI RMI RMO IRO IRI ARI ARO    EEO SUB BRI ORI PCE PCO JMP XXX             
+//            HLT MRI RMI RMO IRO IRI ARI ARO    AUO SUB BRI ORI PCE PCO JMP XXX             
 //             F   E   D   C   B   A   9   8      7   6   5   4   3   2   1   0
 //
 // To use these constants for writing a single microcode, simply OR (|) the corresponding constants 
@@ -82,7 +82,7 @@ const uint16_t ARI = 0b0000001000000000;  // 'A' Register In
 const uint16_t ARO = 0b0000000100000000;  // 'B' Register Out
 
 // Right EEPROM
-const uint16_t EEO = 0b0000000010000000;  // ALU Out
+const uint16_t AUO = 0b0000000010000000;  // ALU Out
 const uint16_t SUB = 0b0000000001000000;  // Subtraction 
 const uint16_t BRI = 0b0000000000100000;  // 'B' Register In
 const uint16_t ORI = 0b0000000000010000;  // Output Register In
