@@ -92,6 +92,28 @@ const uint16_t JMP = 0b0000000000000010;  // Jump
 const uint16_t XXX = 0b0000000000000001;  // I can't rememeber right now; I'll find out tomorrow \shrug 
 
 
+// Mirocodes for the 16 instructions. Each microcode could be up to 8 instructions long, but currently 
+// the max is 5, thus, there is some "wasted" RAM (though, this only uses 128 Bytes on each of the two 
+// EEPROMs that both have 2048 Bytes). 
+const uint16_t INSTRUCTIONS[16][8] = {
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0000 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0001 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0010 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0011 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0100 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0101 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0110 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0111 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1000 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1001 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1010 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1011 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1100 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1101 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1110 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1111 --- NOP --- No Operation 
+};
+
 // Specify an address to read from or write to the EEPROM. This function assumes that there are 10 
 // bits for the memory address (1024 addresses). 
 //
