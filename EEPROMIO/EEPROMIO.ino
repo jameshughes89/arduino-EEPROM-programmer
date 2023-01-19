@@ -76,10 +76,10 @@ const uint16_t HLT = 0b1000000000000000;  // Halt
 const uint16_t MRI = 0b0100000000000000;  // Memory Address Register In
 const uint16_t RMI = 0b0010000000000000;  // RAM In
 const uint16_t RMO = 0b0001000000000000;  // RAM Out
-const uint16_t IRO = 0b0000100000000000;  // Instruction Register Out
-const uint16_t IRI = 0b0000010000000000;  // Instruction Register In
+const uint16_t IRI = 0b0000100000000000;  // Instruction Register In
+const uint16_t IRO = 0b0000010000000000;  // Instruction Register OUT
 const uint16_t ARI = 0b0000001000000000;  // 'A' Register In
-const uint16_t ARO = 0b0000000100000000;  // 'B' Register Out
+const uint16_t ARO = 0b0000000100000000;  // 'A' Register Out
 
 // Right EEPROM
 const uint16_t AUO = 0b0000000010000000;  // ALU Out
