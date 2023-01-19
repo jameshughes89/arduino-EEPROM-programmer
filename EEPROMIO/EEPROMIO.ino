@@ -320,9 +320,17 @@ void writeEepromSevenSegmentDigits(int maxNumber) {
 // will be right shifted 8 bits before it is written to the 8 data lines of the EEPROM.  
 //
 // int shift: The number of bits to shift the 16 bit instruction to the right. For programming the 
-//            "left" EEPROM, this should be 8, for programming the "RIGHT" this should be 0. 
+//            "left" EEPROM, this should be 8, for programming the "right" this should be 0. 
 void writeEepromMicrocodes(int shift){
-
+  int address;
+  // For each instruction   
+  for (int instruction = 0; instruction < sizeof(INSTRUCTIONS)/sizeof(INSTRUCTIONS[0]); instruction++){
+    // For each microcode 
+    for (int microcode = 0; microcode < sizeof(INSTRUCTIONS[instruction])/sizeof(INSTRUCTIONS[instruction][0]); microcode++){
+      address = instruction + microcode;
+      writeEepromAddress(address, INSTRUCTIONS[instruction][microcode >> shift]);
+    }
+  }
 }
 
 // put your setup code here, to run once:
