@@ -48,6 +48,40 @@ const int NEGATIVE  = 0b00000001; // -
 const int DIGITS[16] = {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE, THIRTEEN, FOURTEEN, FIFTEEN};
 
 
+// Constants for the control logic of the CPU/computer. The values each constant has is dependent
+// on the physical configuration of the CPU/computer. In other words, different physical
+// configurations of the CPU/computer would require a change to the constant values. The current
+// configuration is arbitrary. There are a total of 16 modules (for lack of a better term) on the
+// CPU/computer, but each EEPROM only has 8 data lines. The solution to this problem is to simply 
+// use two EEPROMS --- one for the first 8, the other for the other 8. Each constant will be 
+// represented as a 16 bit integer and, depending on which EEPROM is being programed, some 8 bit
+// shifts may be required. 
+//
+// The configuration of the EEPROMs and the individual modules they correspond to are as follows:
+//
+//            HLT MRI RMI RMO IRO IRI ARI ARO    EEO SUB BRI ORI PCE PCO JMP XXX             
+//             F   E   D   C   B   A   9   8      7   6   5   4   3   2   1   0
+//
+// Left EEPROM
+const uint16_t HLT = 0b1000000000000000;     // Halt
+const uint16_t MRI = 0b0100000000000000;    // Memory Address Register In
+const uint16_t RMI = 0b0010000000000000;    // RAM In
+const uint16_t RMO = 0b0001000000000000;    // RAM Out
+const uint16_t IRO = 0b0000100000000000;    // Instruction Register Out
+const uint16_t IRI = 0b0000010000000000;    // Instruction Register In
+const uint16_t ARI = 0b0000001000000000;   // 'A' Register In
+const uint16_t ARO = 0b0000000100000000;    // 'B' Register Out
+
+// Right EEPROM
+const uint16_t EEO = 0b0000000010000000;    // ALU Out
+const uint16_t SUB = 0b0000000001000000;    // Subtraction 
+const uint16_t BRI = 0b0000000000100000;    // 'B' Register In
+const uint16_t ORI = 0b0000000000010000;    // Output Register In
+const uint16_t PCE = 0b0000000000001000;    // Program Counter Enable
+const uint16_t PCO = 0b0000000000000100;    // Program Counter Out
+const uint16_t JMP = 0b0000000000000010;    // Jump
+const uint16_t XXX = 0b0000000000000001;    // I can't rememeber right now; I'll find out tomorrow \shrug 
+
 
 // Specify an address to read from or write to the EEPROM. This function assumes that there are 10 
 // bits for the memory address (1024 addresses). 
