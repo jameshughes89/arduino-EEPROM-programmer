@@ -65,31 +65,31 @@ const int DIGITS[16] = {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NI
 // To use these constants for writing a single microcode, simply OR (|) the corresponding constants 
 // together. For example, the two microcodes for a 'fetch' would be:
 //
-//              PCO | MRI       Program Counter Out -> Memory Register IN
-//              RMO | IRO       RAM Out -> Instruction Register In 
+//              PCO | MRI             Program Counter Out -> Memory Register IN
+//              RMO | IRO | PCE       RAM Out -> Instruction Register In + Program Counter Enable
 //
 // Note: The order of the constants is simply because I like the OUT before the IN, like FROM -> TO,
 // but this is entirely arbitrary.                           
 //
 // Left EEPROM
-const uint16_t HLT = 0b1000000000000000;     // Halt
-const uint16_t MRI = 0b0100000000000000;    // Memory Address Register In
-const uint16_t RMI = 0b0010000000000000;    // RAM In
-const uint16_t RMO = 0b0001000000000000;    // RAM Out
-const uint16_t IRO = 0b0000100000000000;    // Instruction Register Out
-const uint16_t IRI = 0b0000010000000000;    // Instruction Register In
-const uint16_t ARI = 0b0000001000000000;   // 'A' Register In
-const uint16_t ARO = 0b0000000100000000;    // 'B' Register Out
+const uint16_t HLT = 0b1000000000000000;  // Halt
+const uint16_t MRI = 0b0100000000000000;  // Memory Address Register In
+const uint16_t RMI = 0b0010000000000000;  // RAM In
+const uint16_t RMO = 0b0001000000000000;  // RAM Out
+const uint16_t IRO = 0b0000100000000000;  // Instruction Register Out
+const uint16_t IRI = 0b0000010000000000;  // Instruction Register In
+const uint16_t ARI = 0b0000001000000000;  // 'A' Register In
+const uint16_t ARO = 0b0000000100000000;  // 'B' Register Out
 
 // Right EEPROM
-const uint16_t EEO = 0b0000000010000000;    // ALU Out
-const uint16_t SUB = 0b0000000001000000;    // Subtraction 
-const uint16_t BRI = 0b0000000000100000;    // 'B' Register In
-const uint16_t ORI = 0b0000000000010000;    // Output Register In
-const uint16_t PCE = 0b0000000000001000;    // Program Counter Enable
-const uint16_t PCO = 0b0000000000000100;    // Program Counter Out
-const uint16_t JMP = 0b0000000000000010;    // Jump
-const uint16_t XXX = 0b0000000000000001;    // I can't rememeber right now; I'll find out tomorrow \shrug 
+const uint16_t EEO = 0b0000000010000000;  // ALU Out
+const uint16_t SUB = 0b0000000001000000;  // Subtraction 
+const uint16_t BRI = 0b0000000000100000;  // 'B' Register In
+const uint16_t ORI = 0b0000000000010000;  // Output Register In
+const uint16_t PCE = 0b0000000000001000;  // Program Counter Enable
+const uint16_t PCO = 0b0000000000000100;  // Program Counter Out
+const uint16_t JMP = 0b0000000000000010;  // Jump
+const uint16_t XXX = 0b0000000000000001;  // I can't rememeber right now; I'll find out tomorrow \shrug 
 
 
 // Specify an address to read from or write to the EEPROM. This function assumes that there are 10 
