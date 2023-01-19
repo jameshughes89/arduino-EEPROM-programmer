@@ -55,12 +55,21 @@ const int DIGITS[16] = {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NI
 // CPU/computer, but each EEPROM only has 8 data lines. The solution to this problem is to simply 
 // use two EEPROMS --- one for the first 8, the other for the other 8. Each constant will be 
 // represented as a 16 bit integer and, depending on which EEPROM is being programed, some 8 bit
-// shifts may be required. 
+// shifts may be required.
 //
 // The configuration of the EEPROMs and the individual modules they correspond to are as follows:
 //
 //            HLT MRI RMI RMO IRO IRI ARI ARO    EEO SUB BRI ORI PCE PCO JMP XXX             
 //             F   E   D   C   B   A   9   8      7   6   5   4   3   2   1   0
+//
+// To use these constants for writing a single microcode, simply OR (|) the corresponding constants 
+// together. For example, the two microcodes for a 'fetch' would be:
+//
+//              PCO | MRI       Program Counter Out -> Memory Register IN
+//              RMO | IRO       RAM Out -> Instruction Register In 
+//
+// Note: The order of the constants is simply because I like the OUT before the IN, like FROM -> TO,
+// but this is entirely arbitrary.                           
 //
 // Left EEPROM
 const uint16_t HLT = 0b1000000000000000;     // Halt
