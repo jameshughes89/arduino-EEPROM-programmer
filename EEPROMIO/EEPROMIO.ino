@@ -66,7 +66,7 @@ const int DIGITS[16] = {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NI
 // together. For example, the two microcodes for a 'fetch' would be:
 //
 //              PCO | MRI             Program Counter Out -> Memory Register IN
-//              RMO | IRO | PCE       RAM Out -> Instruction Register In + Program Counter Enable
+//              RMO | IRI | PCE       RAM Out -> Instruction Register In + Program Counter Enable
 //
 // Note: The order of the constants is simply because I like the OUT before the IN, like FROM -> TO,
 // but this is entirely arbitrary.                           
@@ -96,22 +96,22 @@ const uint16_t XXX = 0b0000000000000001;  // I can't rememeber right now; I'll f
 // the max is 5, thus, there is some "wasted" RAM (though, this only uses 128 Bytes on each of the two 
 // EEPROMs that both have 2048 Bytes). 
 const uint16_t INSTRUCTIONS[16][8] = {
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0000 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0001 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0010 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0011 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0100 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0101 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0110 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 0111 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1000 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1001 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1010 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1011 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1100 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1101 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1110 --- NOP --- No Operation 
-  {PCO|MRI,   RMO|IRO|PCE, 0, 0, 0, 0, 0, 0},   // 1111 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 0000 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 0001 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 0010 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 0011 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 0100 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 0101 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 0110 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 0111 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 1000 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 1001 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 1010 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 1011 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 1100 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 1101 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 1110 --- NOP --- No Operation 
+  {PCO|MRI,   RMO|IRI|PCE, 0, 0, 0, 0, 0, 0},   // 1111 --- NOP --- No Operation 
 };
 
 // Specify an address to read from or write to the EEPROM. This function assumes that there are 10 
@@ -322,13 +322,13 @@ void writeEepromSevenSegmentDigits(int maxNumber) {
 // int shift: The number of bits to shift the 16 bit instruction to the right. For programming the 
 //            "left" EEPROM, this should be 8, for programming the "right" this should be 0. 
 void writeEepromMicrocodes(int shift){
-  int address;
+  int address = 0;
   // For each instruction   
   for (int instruction = 0; instruction < sizeof(INSTRUCTIONS)/sizeof(INSTRUCTIONS[0]); instruction++){
     // For each microcode 
     for (int microcode = 0; microcode < sizeof(INSTRUCTIONS[instruction])/sizeof(INSTRUCTIONS[instruction][0]); microcode++){
-      address = instruction + microcode;
-      writeEepromAddress(address, INSTRUCTIONS[instruction][microcode >> shift]);
+      writeEepromAddress(address, INSTRUCTIONS[instruction][microcode] >> shift);
+      address++;
     }
   }
 }
@@ -341,10 +341,10 @@ void setup() {
   digitalWrite(EEPROM_WRITE_ENABLE, HIGH);
   pinMode(EEPROM_WRITE_ENABLE, OUTPUT);
   Serial.begin(57600);
-  writeEepromSevenSegmentDigits(256);
+  //writeEepromMicrocodes(0);
   Serial.println("Done");
   Serial.end();
-  readEepromRangeSerial(0, 2048);
+  readEepromRangeSerial(0, 256);
 }
 
 // put your main code here, to run repeatedly:
